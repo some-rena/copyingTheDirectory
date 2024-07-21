@@ -70,8 +70,24 @@ def change_row(filename):
     res[row_number-1]["Телефон"] = data[2]
     standart_write(filename,res)
 
+def copy_row_in_file(filename):
+    try:
+       row_number = int(input('Введите номер строки для копирования в файл: '))
+    except:
+        print("Вы ввели не число")
+        return
+    res = read_file(filename)
+    if row_number > len(res):
+        print("Такой строки нет")
+        return
+    if not exists(filename_copy):
+        create_file(filename_copy)  
+    res_copy = read_file(filename_copy)
+    res_copy.append(res[row_number-1])
+    standart_write(filename_copy,res_copy)
 
 
+filename_copy = 'phone_copy.csv'
 filename = 'phone.csv'
 def main():
     while True:
@@ -102,6 +118,12 @@ def main():
                 print('файл не существует. Создайте его')
                 continue
             change_row(filename)
+        elif command == "copy":
+            if not exists(filename):
+                print('файл не существует. Создайте его')
+                continue
+            copy_row_in_file(filename)
+   
 main()
 
 
